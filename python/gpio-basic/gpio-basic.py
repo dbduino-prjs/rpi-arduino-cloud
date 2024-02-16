@@ -2,19 +2,35 @@
 
 import random
 import gpiod
-from gpiod.line import Direction, Value
+from gpiod.line import Direction, Value, Bias
 
 from arduino_iot_cloud import ArduinoCloudClient
 
-DEVICE_ID = b"YOUR_DEVICE_ID"
-SECRET_KEY = b"YOUR_SECRET_KEY"
+from credentials import DEVICE_ID, SECRET_KEY
+#DEVICE_ID = b"YOUR_DEVICE_ID"
+#SECRET_KEY = b"YOUR_SECRET_KEY"
 
-LED=14      # GPIO14, Pin 6
+LED=14      # GPIO14, Pin 8
+BUTTON=15   # GPIO15, Pin 10 
 # For Raspberry PI 5, the chip is gpiochip4. Check for other RPI flavours.
 chip = gpiod.Chip('/dev/gpiochip4') 
-req=chip.request_lines(consumer="rpi-acloud-gpio-basic",config={LED : gpiod.LineSettings(direction=Direction.OUTPUT)})
+req=chip.request_lines(consumer="rpi-acloud-gpio-basic",
+      config= {
+         LED    : gpiod.LineSettings(direction=Direction.OUTPUT),
+         BUTTON : gpiod.LineSettings(direction=Direction.INPUT, bias=Bias.PULL_UP),
+      })
 
-# This function is executed every 10.0 seconds (as defined in the registration)
+# This function is executed every 1.0 seconds (as defined in the registration) and 
+# returns a random integer value between 0 and 100
+def read_button(client):
+   button = req.get_value(BUTTON)
+   if button == Value.INACTIVE:
+      return False
+   else:
+      return True
+
+# This function is executed every 10.0 seconds (as defined in the registration) and 
+# returns a random integer value between 0 and 100
 def read_value(client):
    return random.randint(0, 100)
 
@@ -33,6 +49,7 @@ if __name__ == "__main__":
 
    # Register the Arduino Cloud variables with the callback functions
    client.register("test_value", on_read=read_value, interval=10.0) 
+   client.register("button", on_read=read_button, interval=1.0)
    client.register("led", value=None, on_write=on_led_changed)
   
    # Start the client
