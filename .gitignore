@@ -2,3 +2,9 @@ js/node_modules/
 credentials.py
 *.pyc
 package*.json
+node-red/docker/data/node_modules/
+.npm
+.config*
+.flows*
+*.tgz
+*.tar.gz
