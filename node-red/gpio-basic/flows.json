@@ -1,0 +1,246 @@
+[
+    {
+        "id": "77a698253f4e0f3b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "75cf75b699400a70",
+        "type": "arduino-connection",
+        "applicationname": "Arduino Cloud"
+    },
+    {
+        "id": "24cfd9cc1c1afa32",
+        "type": "debug",
+        "z": "77a698253f4e0f3b",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 680,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c867832c3d1e4d7b",
+        "type": "inject",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "74096cf67e153bb0",
+                "45efe7b0aee2a4a1"
+            ]
+        ]
+    },
+    {
+        "id": "72088a8b307e6580",
+        "type": "inject",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "74096cf67e153bb0",
+                "45efe7b0aee2a4a1"
+            ]
+        ]
+    },
+    {
+        "id": "2ed4ef3e5a6259bd",
+        "type": "debug",
+        "z": "77a698253f4e0f3b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "63c94b31249472ac",
+        "type": "gpio-in",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "state": "INPUT",
+        "device": "gpiochip4",
+        "pin": "4",
+        "x": 320,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "74096cf67e153bb0",
+        "type": "gpio-out",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "state": "OUTPUT",
+        "device": "gpiochip4",
+        "pin": "17",
+        "x": 450,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1732b73c9a35b80c",
+        "type": "inject",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "244b9558c4ea408c"
+            ]
+        ]
+    },
+    {
+        "id": "65724da039f208af",
+        "type": "rbe",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 490,
+        "y": 100,
+        "wires": [
+            [
+                "24cfd9cc1c1afa32",
+                "d73d5d99772925b2"
+            ]
+        ]
+    },
+    {
+        "id": "d73d5d99772925b2",
+        "type": "property out",
+        "z": "77a698253f4e0f3b",
+        "connection": "75cf75b699400a70",
+        "thing": "74c49bf8-3844-4239-a663-76927d173cb2",
+        "property": "93fc3c3f-d936-4d74-ac26-982fb6a2d7c4",
+        "name": "button",
+        "propname": "button",
+        "defaultname": true,
+        "sendasdevice": false,
+        "device": "09d3a634-e1ad-4927-9da0-dde663f8e5c6",
+        "x": 670,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2a01b1b47921fcfd",
+        "type": "property in",
+        "z": "77a698253f4e0f3b",
+        "connection": "75cf75b699400a70",
+        "thing": "74c49bf8-3844-4239-a663-76927d173cb2",
+        "property": "49eb3950-5fab-41ed-8baf-95d45ad0357e",
+        "name": "led",
+        "propname": "led",
+        "defaultname": true,
+        "variableName": "led",
+        "x": 130,
+        "y": 300,
+        "wires": [
+            [
+                "2ed4ef3e5a6259bd",
+                "45efe7b0aee2a4a1"
+            ]
+        ]
+    },
+    {
+        "id": "244b9558c4ea408c",
+        "type": "gpio-in",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "state": "INPUT",
+        "device": "gpiochip4",
+        "pin": "15",
+        "x": 330,
+        "y": 60,
+        "wires": [
+            [
+                "65724da039f208af"
+            ]
+        ]
+    },
+    {
+        "id": "45efe7b0aee2a4a1",
+        "type": "gpio-out",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "state": "OUTPUT",
+        "device": "gpiochip4",
+        "pin": "14",
+        "x": 450,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    }
+]
