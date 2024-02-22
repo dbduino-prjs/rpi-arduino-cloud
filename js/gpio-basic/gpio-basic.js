@@ -1,6 +1,4 @@
 const gpiod = require('node-libgpiod');
-//const fetch = require('node-fetch');
-//const jwt = require('jsonwebtoken');
 const { ArduinoIoTCloud } = require('arduino-iot-js');
 
 const LED = 14; // GPIO14, Pin 8
@@ -15,8 +13,9 @@ chip = new gpiod.Chip('gpiochip4');
 ledLine = chip.getLine(LED);
 buttonLine = chip.getLine(BUTTON);
 
-ledLine.requestOutputMode();
-buttonLine.requestInputMode();
+ledLine.requestOutputMode("gpio-basic");
+// To configure the pull-up bias, use 32 instead of gpiod.LineFlags.GPIOD_LINE_REQUEST_FLAG_BIAS_PULL_UP if it is undefined
+buttonLine.requestInputModeFlags("gpio-basic", gpiod.LineFlags.GPIOD_LINE_REQUEST_FLAG_BIAS_PULL_UP);
 
 let client;
 
