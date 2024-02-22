@@ -22,7 +22,7 @@ let client;
 // This function is executed every 1.0 seconds, polls the value 
 // of the button and sends the data to Arduino Cloud
 function readButton(client) {
-   button = buttonLine.getValue() ? true : false;
+   let button = buttonLine.getValue() ? true : false;
    if (client)
       client.sendProperty("button", button);
    console.log("pollButton:", button);
@@ -65,5 +65,5 @@ const pollValue = setInterval(() => {
 
 // Poll Button every 1 seconds
 const pollButton = setInterval(() => {
-   readButton();
+   readButton(client);
 }, 1000);
