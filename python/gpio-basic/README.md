@@ -54,10 +54,10 @@ This is a screenshot for reference.
 
 ## 2. Create your python environment
 
-Now it is time to install the python dependencies in order to use Arduino Cloud. You have a [full tutorial]() that describes the full process. 
+Now it is time to install the python dependencies in order to use Arduino Cloud. You have a [full tutorial](https://docs.arduino.cc/arduino-cloud/guides/python/) that describes the full process. 
 
 It can be summarized as follows:
-1. Install GPIOD libraries
+1. Install GPIOD library
 2. Install the GPIOD package
 3. Install Arduino Cloud packages
 
@@ -101,10 +101,10 @@ pip install arduino-iot-cloud swig
 
 Use your favourite programming environment and edit the `gpio-basic.py` file.
 
-Create a file called `credentials.py` with the following content
+Create a file called `credentials.py` inside the `gpio-basic` folder with the following content
 ```
-DEVICE_ID=xxxxx
-SECRET=xxxx
+DEVICE_ID = b"YOUR_DEVICE_ID"
+SECRET_KEY = b"YOUR_SECRET_KEY"
 ```
 
 ## 4. Create the Arduino Cloud dashboard
