@@ -1,22 +1,76 @@
-# rpi-arduino-cloud
+# Raspberry PI GPIO Basic control with Python using Arduino Cloud
 
+This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud. It can serve as an example to create your own applications that require access to GPIOs and that can be ultimately controlled using a dashboard. 
 
-## GPIOs and Raspberry Pi
-There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: gpiozero, gpiod, RPi.GPIO. One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
+## The setup
 
-After a lot of googling and searching, I ended up using *gpiod* as it is the one supported by the Linux kernel team directly and it can be used across all the RPI flavours.
+In this project I have used a Raspberry Pi 5 connected to an LED and a push button, both inserted in a breadboard. This is the diagram
 
-### **GPIOD** library
+<TBD: Diagram>
 
-#### Installation
-First, you have to install library in the system.
-If you are using Ubuntu or any other Debian-based machine, you can follow these instructions
+> Note: This project should work with any Raspberry Pi version and actually with any Linux-based machine that supports libgpiod. Please, drop your comments in **Issues** if it does not work with your board in order to review it.
+
+## How to create your project
+
+The process to use this project is very straighforward:
+1. Create the Device and Thing in the Arduino Cloud and get the Arduino Cloud API Key
+2. Create your python environment
+3. Develop the python application
+4. Create the Arduino Cloud dashboard
+5. Test everything
+
+## 1. Create the Device and Thing in the Arduino Cloud
+
+> Note: Before getting started, make sure that you have an [Arduino Cloud account](https://cloud.arduino.cc/home/?get-started=true)
+
+### Create the Device 
+Go to the [Devices](https://app.arduino.cc/devices) section of the Arduino IoT Cloud and click on **+ DEVICE**. 
+
+Select **Any Device** and follow the instructions on the wizard.
+
+> Note: Save your `Device ID` and `Secret Key` as they will be used in your python code.
+
+### Create the Thing 
+In you recently created device page, go to the Associated Thing section, click on **Create Thing** and rename it.
+
+> Note: You can also create the Thing from the [Things list](https://app.arduino.cc/things) and associate it later.
+
+### Create the Variables 
+Add the variables by clicking on the ADD button. At the end of the process, your list of variables should look like this.
+
+| Name                | Type       | Description |
+|---------------------|------------|-------------|
+| button              | Boolean    | It will hold the status of the physical button |
+| led                 | Boolean    | The variable that we will use to act over the physical LED |
+| test_value          | Integer    | This is a value that will change periodically in the application |
+
+> Note: All the variables have to be READ-WRITE. You can define the periodicity you wish or set them with the policy ON-CHANGE.*
+
+This is a screenshot for reference.
+
+![Arduino Cloud variables](assets/Tuya-Energy_Meter-variables.png)
+
+<TBD: Dashboard>
+
+## 2. Create your python environment
+
+Now it is time to install the python dependencies in order to use Arduino Cloud. You have a [full tutorial]() that describes the full process. 
+
+It can be summarized as follows:
+1. Install GPIOD libraries
+2. Install the GPIOD package
+3. Install Arduino Cloud packages
+
+### Install GPIOD library in the system
+
+First, you have to install library in the system. If you are using Ubuntu or any other Debian-based machine, you can follow these instructions
 
 ```
 sudo apt install gpiod libgpiod-dev libgpiod2 python3-libgpiod
 ```
 
-Next, you have to install the PIP package, for that my recommendation is that you install it in an isolated virtual environment. So, you have to install the following packages
+### Install the GPIOD python package using PIP
+Next, you have to install the PIP package, for that, my recommendation is that you install it in an isolated virtual environment. So, you have to install the following packages
 
 ```
 sudo apt install python3-pip python3-virtualenv
@@ -30,7 +84,84 @@ virtualenv venv
 source venv/bin/activate
 ```
 
-#### Notes
+Install the package
+```
+pip install xxxxx
+```
+
+### Install Arduino Cloud python packages
+
+To install the Arduino IoT Cloud client library, you only have to do the following:
+
+```
+pip install arduino-iot-cloud swig
+```
+
+## 3. Develop the python application
+
+Use your favourite programming environment and edit the `gpio-basic.py` file.
+
+Create a file called `credentials.py` with the following content
+```
+DEVICE_ID=xxxxx
+SECRET=xxxx
+```
+
+## 4. Create the Arduino Cloud dashboard
+
+<TBD: Dashboard>
+
+## 5. Test everything
+
+Run your code
+
+```
+(venv)sxxx$ python ./gpio-basic.py
+```
+
+You should see the following:
+* Every time push the button, the button widget should be updated
+* Every time you change the LED widget in the dashboard, the physical LED should switch to ON or OFF
+* The value of `test_value` should change randomly every 10s and the value updated in the dashboard
+
+Enjoy!
+
+## Additional information
+### Arduino Cloud
+[Arduino Cloud](https://cloud.arduino.cc/) is a platform that simplifies the process of developing, deploying, and managing IoT devices. It supports various hardware, including Arduino boards, ESP boards and any device programmed with Python or Javascript. It makes it easy for makers, IoT enthusiasts, and professionals to build connected projects without high programming skills.
+
+The platform allows for easy management and monitoring of connected devices through customizable dashboards, which provide real-time visualisations of the device's data. The dashboards can be accessed remotely through the mobile app Arduino IoT Cloud Remote, which is available for both Android and iOS devices, allowing users to manage their devices from anywhere.
+
+### GPIOs and Raspberry Pi
+There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: gpiozero, gpiod, RPi.GPIO. One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
+
+After a lot of googling and searching, I ended up using *gpiod* as it is the one supported by the Linux kernel team directly and it can be used across all the RPI flavours.
+
+#### **GPIOD** library
+
+##### Installation
+First, you have to install library in the system.
+If you are using Ubuntu or any other Debian-based machine, you can follow these instructions
+
+```
+sudo apt install gpiod libgpiod-dev libgpiod2 python3-libgpiod
+```
+
+Next, you have to install the PIP package, for that, my recommendation is that you install it in an isolated virtual environment. So, you have to install the following packages
+
+```
+sudo apt install python3-pip python3-virtualenv
+```
+
+To create and activate the virtual environment, use the following code
+
+```
+cd <YOUR_PROJECT_FOLDER>
+virtualenv venv
+source venv/bin/activate
+```
+
+##### Notes
 The GPIOD library has evolved quite a lot in time. The versions before 2.0.0 have a different API than the newer ones. This project is based on the API and syntax of version v2.1.3. 
 
 These are the official pages of the Python package:
