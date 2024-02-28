@@ -166,7 +166,7 @@ arduino-cloud-cli dashboard create \
 		--template rpi-gpio-basic-dashboard.yaml \ 
 		--override Raspberry-Basic-GPIO=<Your-Thing-ID>
 ```
-Replace *<Your-Dashboard-Name>* and *<Your-Thing-ID>* with your actual data.
+Replace *\<Your-Dashboard-Name\>* and *\<Your-Thing-ID\>* with your actual data.
 
 ### GPIOs and Raspberry Pi
 There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: gpiozero, gpiod, RPi.GPIO. One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
