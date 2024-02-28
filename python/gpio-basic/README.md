@@ -1,6 +1,6 @@
 # Raspberry PI GPIO Basic control with Python using Arduino Cloud
 
-This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud. It can serve as an example to create your own applications that require access to GPIOs and that can be ultimately controlled using a dashboard. 
+This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud. It can serve as an example to create your own applications that require access to RPI GPIOs and that can be ultimately controlled using a dashboard. 
 
 ## The setup
 
@@ -54,12 +54,12 @@ This is a screenshot for reference.
 
 ## 2. Create your python environment
 
-Now it is time to install the python dependencies in order to use Arduino Cloud. You have a [full tutorial](https://docs.arduino.cc/arduino-cloud/guides/python/) that describes the full process. 
+Now it is time to install the python dependencies in order to use Arduino Cloud. You have a [full tutorial](https://docs.arduino.cc/arduino-cloud/guides/python/) that describes the process in detail.
 
 It can be summarized as follows:
-1. Install GPIOD library
-2. Install the GPIOD package
-3. Install Arduino Cloud packages
+1. Install GPIOD library in the system
+2. Install the Python GPIOD package
+3. Install the Python Arduino Cloud packages
 
 ### Install GPIOD library in the system
 
@@ -69,8 +69,8 @@ First, you have to install library in the system. If you are using Ubuntu or any
 sudo apt install gpiod libgpiod-dev libgpiod2 python3-libgpiod
 ```
 
-### Install the GPIOD python package using PIP
-Next, you have to install the PIP package, for that, my recommendation is that you install it in an isolated virtual environment. So, you have to install the following packages
+### Install the GPIOD Python package using PIP
+Next, you have to install the PIP package. For that, my recommendation is that you install it in an isolated virtual environment. So you have to install the following packages
 
 ```
 sudo apt install python3-pip python3-virtualenv
@@ -106,6 +106,16 @@ Create a file called `credentials.py` inside the `gpio-basic` folder with the fo
 DEVICE_ID = b"YOUR_DEVICE_ID"
 SECRET_KEY = b"YOUR_SECRET_KEY"
 ```
+
+If you are using a different Raspberry Pi flavour or any other machine, you should check which is the right chipset and which are the lines that you want to use. Then, modify the following lines accordingly:
+
+```
+LED=14      # GPIO14, Pin 8
+BUTTON=15   # GPIO15, Pin 10 
+chip = gpiod.Chip('/dev/gpiochip4') 
+```
+
+If you want to learn more, check the [Annex](https://github.com/dbduino-prjs/rpi-arduino-cloud/blob/develop/python/gpio-basic/README.md#notes) at the end of this doc.
 
 ## 4. Create the Arduino Cloud dashboard
 
@@ -171,7 +181,7 @@ These are the official pages of the Python package:
 
 If you want to check what is the gpiochip and line that you have to use in the code, you can use the following command line commands.
 
-This is the output in a Raspberry PI 5
+This is an example of the output in a Raspberry PI 5
 ```
 $ sudo gpiodetect 
 gpiochip0 [gpio-brcmstb@107d508500] (32 lines)
@@ -238,3 +248,5 @@ gpiochip4 - 54 lines:
 	line  53:          "-"       unused   input  active-high 
 
 ```
+
+Check the full documentation of libgpiod and the command line tools [here](https://github.com/brgl/libgpiod).
