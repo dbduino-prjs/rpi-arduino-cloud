@@ -1,6 +1,6 @@
 # Raspberry PI GPIO Basic control with Python using Arduino Cloud
 
-This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud. It can serve as an example to create your own applications that require access to RPI GPIOs and that can be ultimately controlled using a dashboard. 
+This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud with an application programmed in Python. It can serve as an example to create your own applications that require access to RPI GPIOs and that can be ultimately controlled using a dashboard. 
 
 ## The setup
 
@@ -141,6 +141,32 @@ Enjoy!
 [Arduino Cloud](https://cloud.arduino.cc/) is a platform that simplifies the process of developing, deploying, and managing IoT devices. It supports various hardware, including Arduino boards, ESP boards and any device programmed with Python or Javascript. It makes it easy for makers, IoT enthusiasts, and professionals to build connected projects without high programming skills.
 
 The platform allows for easy management and monitoring of connected devices through customizable dashboards, which provide real-time visualisations of the device's data. The dashboards can be accessed remotely through the mobile app Arduino IoT Cloud Remote, which is available for both Android and iOS devices, allowing users to manage their devices from anywhere.
+
+#### Clone the dashboard using Cloud CLI
+
+As described in the tutorial, you can create the dashboard on your own, but here I will show you a very handy trick so that you can just make a copy of a template that I have created. For that, you need to use [Arduino Cloud CLI](https://docs.arduino.cc/arduino-cloud/arduino-cloud-cli/getting-started/).
+
+The steps are the following:
+1. Download and extract the latest release.
+Download it from [here](https://github.com/arduino/arduino-cloud-cli/releases)
+Make sure it is in your machine's PATH, so that it can be used globally.
+After installation, check that it is working by opening a terminal, and type:
+
+2. Set your credentials
+To authenticate with the Arduino Cloud, we will need to first set our credentials, using our clientId and clientSecret which are obtained from the Arduino Cloud [API keys section](https://app.arduino.cc/api-keys). Run the following command and introduce the credentials:
+```
+arduino-cloud-cli credentials init
+```
+
+3. Create the dashboard
+
+```
+arduino-cloud-cli dashboard create \
+		--name <Your-Dashboard_Name> \ 
+		--template rpi-gpio-basic-dashboard.yaml \ 
+		--override Raspberry-Basic-GPIO=<Your-Thing-ID>
+```
+Replace *<Your-Dashboard-Name>* and *<Your-Thing-ID>* with your actual data.
 
 ### GPIOs and Raspberry Pi
 There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: gpiozero, gpiod, RPi.GPIO. One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
