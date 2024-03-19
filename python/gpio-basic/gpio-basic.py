@@ -3,9 +3,10 @@
 import random
 import gpiod
 from gpiod.line import Direction, Value, Bias
-
 from arduino_iot_cloud import ArduinoCloudClient
-
+# To set your credentials you have two options:
+# 1. Create a credentials.py file with the DEVICE_ID and SECRET_KEY
+# 2. Comment out the following line and uncomment and fill the DEVICE_ID, SECRET_KEY below
 from credentials import DEVICE_ID, SECRET_KEY
 #DEVICE_ID = b"YOUR_DEVICE_ID"
 #SECRET_KEY = b"YOUR_SECRET_KEY"
