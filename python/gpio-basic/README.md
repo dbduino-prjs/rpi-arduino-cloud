@@ -31,7 +31,7 @@ Select **Any Device** and follow the instructions on the wizard.
 > Note: Save your `Device ID` and `Secret Key` as they will be used in your python code.
 
 ### Create the Thing 
-In you recently created device page, go to the Associated Thing section, click on **Create Thing** and rename it.
+In your recently created device page, go to the Associated Thing section, click on **Create Thing** and rename it.
 
 > Note: You can also create the Thing from the [Things list](https://app.arduino.cc/things) and associate it later.
 
@@ -44,7 +44,7 @@ Add the variables by clicking on the ADD button. At the end of the process, your
 | led                 | Boolean    | The variable that we will use to act over the physical LED |
 | test_value          | Integer    | This is a value that will change periodically in the application |
 
-> Note: All the variables have to be READ-WRITE. You can define the periodicity you wish or set them with the policy ON-CHANGE.*
+> Note: All the variables have to be READ-WRITE. You can define the periodicity you wish or set them with the policy ON-CHANGE.
 
 This is a screenshot for reference.
 
@@ -115,11 +115,20 @@ BUTTON=15   # GPIO15, Pin 10
 chip = gpiod.Chip('/dev/gpiochip4') 
 ```
 
-If you want to learn more, check the [Annex](https://github.com/dbduino-prjs/rpi-arduino-cloud/blob/develop/python/gpio-basic/README.md#notes) at the end of this doc.
+If you want to learn more, check the [Annex](README.md#notes) at the end of this doc.
 
 ## 4. Create the Arduino Cloud dashboard
 
-<TBD: Dashboard>
+The dashboard that we are going to build will look like this
+
+[Dashboard screenshot]
+
+There are 2 ways to create the dashboard:
+1. Create it manually. Replicate the one shown above following the instructions in [this guide](https://docs.arduino.cc/arduino-cloud/cloud-interface/dashboard-widgets/).
+   - The LED widgets should be linked to the variable led
+   - The Value widgets should be linked to the variable test_value
+   - The Button widgets should be linked to the variable button
+3. Clone the one provided by this tutorial following the instructions in the [Annex](README.md#clone-the-dashboard-using-cloud-cli)
 
 ## 5. Test everything
 
