@@ -1,0 +1,87 @@
+name: Raspberry-Pi Basic GPIOs
+widgets:
+    - height: 8
+      height_mobile: 9
+      name: Value evolution
+      type: Chart
+      variables:
+        - thing_id: Raspberry-Basic-GPIO
+          variable_id: test_value
+      width: 10
+      width_mobile: 10
+      x: 4
+      x_mobile: 0
+      "y": 0
+      y_mobile: 4
+    - height: 4
+      height_mobile: 4
+      name: Push Button
+      type: Push Button
+      variables:
+        - thing_id: Raspberry-Basic-GPIO
+          variable_id: button
+      width: 4
+      width_mobile: 4
+      x: 18
+      x_mobile: 0
+      "y": 0
+      y_mobile: 13
+    - height: 4
+      height_mobile: 4
+      name: Button
+      options:
+        mode: True / False
+      type: Status
+      variables:
+        - thing_id: Raspberry-Basic-GPIO
+          variable_id: button
+      width: 4
+      width_mobile: 4
+      x: 18
+      x_mobile: 0
+      "y": 4
+      y_mobile: 17
+    - height: 4
+      height_mobile: 4
+      name: LED
+      options:
+        mode: Both Colors
+      type: LED
+      variables:
+        - thing_id: Raspberry-Basic-GPIO
+          variable_id: led
+      width: 4
+      width_mobile: 4
+      x: 0
+      x_mobile: 4
+      "y": 4
+      y_mobile: 13
+    - height: 4
+      height_mobile: 4
+      name: LED
+      options:
+        showLabels: true
+      type: Switch
+      variables:
+        - thing_id: Raspberry-Basic-GPIO
+          variable_id: led
+      width: 4
+      width_mobile: 4
+      x: 0
+      x_mobile: 0
+      "y": 0
+      y_mobile: 0
+    - height: 4
+      height_mobile: 4
+      name: Value
+      type: Value
+      variables:
+        - thing_id: Raspberry-Basic-GPIO
+          variable_id: test_value
+      width: 4
+      width_mobile: 4
+      x: 14
+      x_mobile: 4
+      "y": 4
+      y_mobile: 0
+
