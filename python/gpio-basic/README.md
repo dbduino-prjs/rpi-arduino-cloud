@@ -6,7 +6,7 @@ This project shows how to interact with the Raspberry Pi GPIOs from a dashboard 
 
 In this project I have used a Raspberry Pi 5 connected to an LED and a push button, both inserted in a breadboard. This is the diagram
 
-<TBD: Diagram>
+![alt text](../../assets/RPI-GPIO-Basic-Diagram.png)
 
 > Note: This project should work with any Raspberry Pi version and actually with any Linux-based machine that supports libgpiod. Please, drop your comments in **Issues** if it does not work with your board in order to review it.
 
@@ -48,9 +48,7 @@ Add the variables by clicking on the ADD button. At the end of the process, your
 
 This is a screenshot for reference.
 
-![Arduino Cloud variables](assets/Tuya-Energy_Meter-variables.png)
-
-<TBD: Dashboard>
+![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Thing_Variables2.png)
 
 ## 2. Create your python environment
 
@@ -121,14 +119,14 @@ If you want to learn more, check the [Annex](README.md#notes) at the end of this
 
 The dashboard that we are going to build will look like this
 
-[Dashboard screenshot]
+![alt text](../../assets/RPI-GPIO-Basic-Dashboard.png)
 
 There are 2 ways to create the dashboard:
 1. Create it manually. Replicate the one shown above following the instructions in [this guide](https://docs.arduino.cc/arduino-cloud/cloud-interface/dashboard-widgets/).
    - The LED widgets should be linked to the variable led
    - The Value widgets should be linked to the variable test_value
    - The Button widgets should be linked to the variable button
-3. Clone the one provided by this tutorial following the instructions in the [Annex](README.md#clone-the-dashboard-using-cloud-cli)
+2. Clone the one provided by this tutorial following the instructions in the [Annex](README.md#clone-the-dashboard-using-cloud-cli)
 
 ## 5. Test everything
 
