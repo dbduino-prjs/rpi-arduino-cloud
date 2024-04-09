@@ -82,9 +82,11 @@ virtualenv venv
 source venv/bin/activate
 ```
 
+> Note: The command `virtualenv venv` creates the virtual environment and only has to be executed once.
+
 Install the package
 ```
-pip install xxxxx
+pip install gpiod
 ```
 
 ### Install Arduino Cloud python packages
