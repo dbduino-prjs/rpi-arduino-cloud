@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "name": "node-red",
+      "script": "node-red",
+      // Change the directory to your own one
+      "args": ["--userDir", "/home/dbeamon/projects/python/arduino-cloud/rpi-arduino-cloud/node-red/gpio-basic"],
+      "node_args": ["--max-old-space-size=128"],
+      // Other configurations...
+    }
+  ]
+}
+
