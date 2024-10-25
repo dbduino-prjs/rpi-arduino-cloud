@@ -1,0 +1,247 @@
+[
+    {
+        "id": "77a698253f4e0f3b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "34c8e003d4fea847",
+        "type": "ioplugin",
+        "name": "",
+        "username": "",
+        "password": "",
+        "boardType": "raspi-io",
+        "serialportName": "",
+        "connectionType": "local",
+        "mqttServer": "",
+        "pubTopic": "",
+        "subTopic": "",
+        "tcpHost": "",
+        "tcpPort": "",
+        "sparkId": "",
+        "sparkToken": "",
+        "beanId": "",
+        "impId": "",
+        "uuid": "",
+        "token": "",
+        "sendUuid": "",
+        "samplingInterval": "500"
+    },
+    {
+        "id": "fa9fb9892431c6d7",
+        "type": "rpi-gpio in",
+        "z": "77a698253f4e0f3b",
+        "d": true,
+        "name": "",
+        "pin": "4",
+        "intype": "up",
+        "debounce": "25",
+        "read": true,
+        "bcm": true,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "24cfd9cc1c1afa32"
+            ]
+        ]
+    },
+    {
+        "id": "24cfd9cc1c1afa32",
+        "type": "debug",
+        "z": "77a698253f4e0f3b",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "36dbd4758116032e",
+        "type": "rpi-gpio out",
+        "z": "77a698253f4e0f3b",
+        "d": true,
+        "name": "",
+        "pin": "17",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "bcm": true,
+        "x": 440,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c867832c3d1e4d7b",
+        "type": "inject",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 150,
+        "y": 180,
+        "wires": [
+            [
+                "36dbd4758116032e",
+                "27aa95c08b8e9a65",
+                "b0e39184ca5c33dd"
+            ]
+        ]
+    },
+    {
+        "id": "72088a8b307e6580",
+        "type": "inject",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "36dbd4758116032e",
+                "27aa95c08b8e9a65",
+                "b0e39184ca5c33dd"
+            ]
+        ]
+    },
+    {
+        "id": "75578141b3837bc3",
+        "type": "pi-gpiod in",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "host": "localhost",
+        "port": 8888,
+        "pin": "4",
+        "intype": "PUD_UP",
+        "debounce": "25",
+        "read": true,
+        "x": 150,
+        "y": 320,
+        "wires": [
+            [
+                "2ed4ef3e5a6259bd"
+            ]
+        ]
+    },
+    {
+        "id": "27aa95c08b8e9a65",
+        "type": "pi-gpiod out",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "host": "localhost",
+        "port": 8888,
+        "pin": "17",
+        "set": "",
+        "level": "0",
+        "out": "out",
+        "sermin": "1000",
+        "sermax": "2000",
+        "freq": "800",
+        "x": 440,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "2ed4ef3e5a6259bd",
+        "type": "debug",
+        "z": "77a698253f4e0f3b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "ae6b72d97a7bb25e",
+        "type": "gpio in",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "state": "PULLUP",
+        "pin": "7",
+        "board": "34c8e003d4fea847",
+        "x": 150,
+        "y": 420,
+        "wires": [
+            [
+                "95d46a2905253ec6"
+            ]
+        ]
+    },
+    {
+        "id": "b0e39184ca5c33dd",
+        "type": "gpio out",
+        "z": "77a698253f4e0f3b",
+        "name": "",
+        "state": "OUTPUT",
+        "pin": "11",
+        "i2cDelay": "0",
+        "i2cAddress": "",
+        "i2cRegister": "",
+        "outputs": 0,
+        "board": "34c8e003d4fea847",
+        "x": 430,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "95d46a2905253ec6",
+        "type": "debug",
+        "z": "77a698253f4e0f3b",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 420,
+        "wires": []
+    }
+]
