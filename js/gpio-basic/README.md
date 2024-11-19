@@ -29,7 +29,7 @@ Go to the [Devices](https://app.arduino.cc/devices) section of the Arduino IoT C
 
 Select **Any Device** and follow the instructions on the wizard.
 
-> Note: Save your `Device ID` and `Secret Key` as they will be used in your python code.
+> Note: Save your `Device ID` and `Secret Key` as they will be used in your code.
 
 ### Create the Thing 
 In your recently created device page, go to the Associated Thing section, click on **Create Thing** and rename it.
@@ -52,7 +52,6 @@ This is a screenshot for reference.
 ![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Thing_Variables2.png)
 
 ## 2. Set up your Node.js environment
-TBD
 
 ### Install the system libraries and required NPM packages
 
@@ -61,8 +60,8 @@ Now it is time to install the Node.js dependencies in order to use Arduino Cloud
 It can be summarized as follows:
 
 1. Install GPIOD library in the system
-2. Install the Python GPIOD package
-3. Install the Python Arduino Cloud packages
+2. Install the Node.js GPIOD package
+3. Install the Node.js Arduino Cloud packages
 
 ### Install the GPIOD library in the system
 First, you have to install library in the system. If you are using Ubuntu or any other Debian-based machine, you can follow these instructions.
@@ -74,24 +73,24 @@ sudo apt install gpiod libgpiod2 libgpiod-dev libnode-dev
 ### Install the GPIOD node.js package using NPM
 Next, you have to install the node package. 
 
+> Tip: The NPM modules can be installed globally or locally in the working folder. My suggestion is to work in the `js/` folder and install the modules there. Once installed, you should see a folder `js/node_modules/`.
+
 ```
 npm install --save node-libgpiod node-fetch
 ```
 
-### Install Arduino Cloud python packages
+### Install Arduino Cloud Node.js packages
 To install the Arduino IoT Cloud client library, you only have to do the following:
 
 ```
 npm install arduino-iot-js
 ```
 
-> Note: You can install the NPM packages as global or local in the folder
-
 ## 3. Develop the Node.js application
 
 Use your favourite programming environment and edit the `gpio-basic.js` file.
 
-Create a file called `credentials.js` inside the `gpio-basic` folder with the following content
+Create a file called `credentials.js` inside the `js/gpio-basic/` folder with the following content
 
 ```
 module.exports = {
@@ -108,7 +107,7 @@ const LED = 14;     // GPIO14, Pin 8
 const BUTTON = 15;  // GPIO15, Pin 10
 ```
 
-> Note: In the code, make sure that all the variables are global (chip, ledLine, buttonLine, ...). Otherwise, any timed operation will not work properly.
+> Note: In the code, make sure that all the variables are global (chip, ledLine, buttonLine, ...). Otherwise, any timed operation will not work properly. This is mainly an important tip if you are going to modify or adapt the code for your own purposes.
 
 If you want to learn more about GPIOs, Raspberry Pi and libraries, check the [Annex](README.md#notes) at the end of this doc.
 
@@ -130,7 +129,7 @@ There are 2 ways to create the dashboard:
 Run your code
 
 ```
-sxxx$ node ./gpio-basic.js
+~/rpi-arduino-cloud/js$ node ./gpio-basic/gpio-basic.js
 ```
 
 You should see the following:
@@ -142,7 +141,7 @@ Enjoy!
 
 ## Additional information
 ### Arduino Cloud
-[Arduino Cloud](https://cloud.arduino.cc/) is a platform that simplifies the process of developing, deploying, and managing IoT devices. It supports various hardware, including Arduino boards, ESP boards and any device programmed with Python or Javascript. It makes it easy for makers, IoT enthusiasts, and professionals to build connected projects without high programming skills.
+[Arduino Cloud](https://cloud.arduino.cc/) is a platform that simplifies the process of developing, deploying, and managing IoT devices. It supports various hardware, including Arduino boards, ESP boards and any device programmed with Python, Javascript or Node-RED. It makes it easy for makers, IoT enthusiasts, and professionals to build connected projects without high programming skills.
 
 The platform allows for easy management and monitoring of connected devices through customizable dashboards, which provide real-time visualisations of the device's data. The dashboards can be accessed remotely through the mobile app Arduino IoT Cloud Remote, which is available for both Android and iOS devices, allowing users to manage their devices from anywhere.
 
@@ -173,7 +172,7 @@ arduino-cloud-cli dashboard create \
 Replace *\<Your-Dashboard-Name\>* and *\<Your-Thing-ID\>* with your actual data.
 
 ### GPIOs and Raspberry Pi
-There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: gpiozero, gpiod, RPi.GPIO. One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
+There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: onoff, jonhny-five, rpi-gpio, gpiozero, .... One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
 
 After a lot of googling and searching, I ended up using *gpiod* as it is the one supported by the Linux kernel team directly and it can be used across all the RPI flavours.
 
@@ -193,16 +192,8 @@ Next, you have to install the NPM library.
 npm install --save node-libgpiod node-fetch
 ```
 
-### Install Arduino Cloud python packages
-
-
 ##### Notes
-The GPIOD library has evolved quite a lot in time. The versions before 2.0.0 have a different API than the newer ones. This project is based on the API and syntax of version v2.1.3. 
-
-These are the official pages of the Python package:
-* https://pypi.org/project/gpiod/
-* https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/tree/bindings/python 
-* https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/about/
+The GPIOD API has evolved quite a lot over time. The versions before 2.0.0 have a different API than the newer ones. This project is using the library [node-libgpiod](https://github.com/sombriks/node-libgpiod) which uses libgpiod v2.x. It's important to use version v0.4.0 or above of `node-libgpiod`.
 
 If you want to check what is the gpiochip and line that you have to use in the code, you can use the following command line commands.
 
