@@ -13,6 +13,6 @@
     "arduino-iot-js": "^0.11.0",
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^2.6.6",
-    "node-libgpiod": "file:../../../../git/node-libgpiod-fork/node-libgpiod-0.3.3-db.tgz"
+    "node-libgpiod": "^0.4.6"
   }
 }
