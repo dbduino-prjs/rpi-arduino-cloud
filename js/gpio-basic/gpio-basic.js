@@ -7,9 +7,6 @@ const GPIOCHIP = 'gpiochip4';
 const LED = 14; // GPIO14, Pin 8
 const BUTTON = 15; // GPIO15, Pin 10
 
-//const DEVICE_ID = "09d3a634-e1ad-4927-9da0-dde663f8e5c6";
-//const SECRET_KEY = "IXD3U1S37QPJOJXLZMP5";
-
 // Make sure these variables are global. Otherwise, they will not 
 // work properly inside the timers
 chip = new gpiod.Chip(GPIOCHIP);
