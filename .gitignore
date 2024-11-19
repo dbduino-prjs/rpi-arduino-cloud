@@ -10,3 +10,4 @@ node-red/docker/data/node_modules/
 .package*
 *.tgz
 *.tar.gz
+js/package.json
