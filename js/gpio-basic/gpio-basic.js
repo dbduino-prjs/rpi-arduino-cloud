@@ -1,15 +1,18 @@
 const gpiod = require('node-libgpiod');
 const { ArduinoIoTCloud } = require('arduino-iot-js');
+const { DEVICE_ID, SECRET_KEY } = require('./credentials');
 
+// Modify these lines according to your board setup
+const GPIOCHIP = 'gpiochip4';
 const LED = 14; // GPIO14, Pin 8
 const BUTTON = 15; // GPIO15, Pin 10
 
-const DEVICE_ID = "09d3a634-e1ad-4927-9da0-dde663f8e5c6";
-const SECRET_KEY = "IXD3U1S37QPJOJXLZMP5";
+//const DEVICE_ID = "09d3a634-e1ad-4927-9da0-dde663f8e5c6";
+//const SECRET_KEY = "IXD3U1S37QPJOJXLZMP5";
 
 // Make sure these variables are global. Otherwise, they will not 
 // work properly inside the timers
-chip = new gpiod.Chip('gpiochip4');
+chip = new gpiod.Chip(GPIOCHIP);
 ledLine = chip.getLine(LED);
 buttonLine = chip.getLine(BUTTON);
 
