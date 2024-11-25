@@ -53,8 +53,6 @@ This is a screenshot for reference.
 
 ## 2. Set up your Node.js environment
 
-### Install the system libraries and required NPM packages
-
 Now it is time to install the Node.js dependencies in order to use Arduino Cloud. You have a [full tutorial](https://docs.arduino.cc/arduino-cloud/guides/javascript/) that describes the process in detail.
 
 It can be summarized as follows:
@@ -73,7 +71,7 @@ sudo apt install gpiod libgpiod2 libgpiod-dev libnode-dev
 ### Install the GPIOD node.js package using NPM
 Next, you have to install the node package. 
 
-> Tip: The NPM modules can be installed globally or locally in the working folder. My suggestion is to work in the `js/` folder and install the modules there. Once installed, you should see a folder `js/node_modules/`.
+> Tip: The NPM modules can be installed globally or locally in the working folder. My suggestion is to work in the `js/` folder and install the modules there with the command above. Once installed, you should see a folder `js/node_modules/`. If you want to install the modules globally, just add `-g` to the command.
 
 ```
 npm install --save node-libgpiod node-fetch
