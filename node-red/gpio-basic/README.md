@@ -126,7 +126,7 @@ Then go to the **Install** tab, search for the modules listed above and install 
 
 If everything worked correctly, you should see the picture shown above.
 
-Now, it's time to configure the nodes:
+Now, it's time to configure the nodes.
 
 ### Configure the Arduino Cloud nodes
 
@@ -166,7 +166,7 @@ Deploy the flow by clicking on the **Deploy** button on the top-right corner.
 
 The dashboard that we are going to build will look like this
 
-![alt text](../../assets/RPI-GPIO-Basic-Dashboard.png)
+![GPIO Basic Arduino Cloud Dashboard](../../assets/RPI-GPIO-Basic-Dashboard.png)
 
 There are 2 ways to create the dashboard:
 1. Create it manually. Replicate the one shown above following the instructions in [this guide](https://docs.arduino.cc/arduino-cloud/cloud-interface/dashboard-widgets/).
