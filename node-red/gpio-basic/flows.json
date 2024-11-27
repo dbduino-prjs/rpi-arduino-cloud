@@ -2,7 +2,7 @@
     {
         "id": "77a698253f4e0f3b",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Arduino Cloud <-> GPIOs",
         "disabled": false,
         "info": "",
         "env": []
@@ -118,7 +118,7 @@
         "repeat": "1",
         "crontab": "",
         "once": false,
-        "onceDelay": 0.1,
+        "onceDelay": "5",
         "topic": "",
         "x": 150,
         "y": 220,
@@ -202,7 +202,7 @@
         "name": "Link to Arduino Cloud Dashboard",
         "info": "https://app.arduino.cc/dashboards/25b90b8d-aba5-4414-9b4f-0a0f43778749",
         "x": 210,
-        "y": 40,
+        "y": 500,
         "wires": []
     },
     {
@@ -252,7 +252,7 @@
         "repeat": "5",
         "crontab": "",
         "once": false,
-        "onceDelay": 0.1,
+        "onceDelay": "5",
         "topic": "",
         "x": 150,
         "y": 100,
@@ -329,5 +329,35 @@
                 "45efe7b0aee2a4a1"
             ]
         ]
+    },
+    {
+        "id": "58df54993a68d0e7",
+        "type": "comment",
+        "z": "77a698253f4e0f3b",
+        "name": "Periodic integer value sent to Arduino Cloud",
+        "info": "",
+        "x": 250,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7d011f726bbf42ee",
+        "type": "comment",
+        "z": "77a698253f4e0f3b",
+        "name": "Read GPIO and send value to Arduino Cloud",
+        "info": "",
+        "x": 250,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "2c56eb0de8394bc8",
+        "type": "comment",
+        "z": "77a698253f4e0f3b",
+        "name": "Read LED status from Arduino Cloud and set GPIO",
+        "info": "",
+        "x": 270,
+        "y": 300,
+        "wires": []
     }
 ]
