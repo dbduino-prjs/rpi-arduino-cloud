@@ -1,7 +1,6 @@
+# Raspberry PI GPIO Basic control with Node-RED using Arduino Cloud
 
-# Raspberry PI GPIO Basic control with Javascript / Node.js using Arduino Cloud
-
-This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud with an application programmed in Node.js. It can serve as an example to create your own applications that require access to RPI GPIOs and that can be ultimately controlled using a dashboard. 
+This project shows how to interact with the Raspberry Pi GPIOs from a dashboard created using Arduino Cloud with an application programmed in Node-RED. It can serve as an example to create your own applications that require access to RPI GPIOs and that can be ultimately controlled using a dashboard. 
 
 ## The setup
 
@@ -15,8 +14,8 @@ In this project I have used a Raspberry Pi 5 connected to an LED and a push butt
 
 The process to use this project is very straighforward:
 1. Create the Device and Thing in the Arduino Cloud and get the Arduino Cloud API Key
-2. Set up the Node.js environment
-3. Develop the Node.js application
+2. Install Node-RED and required nodes
+3. Develop the Node-RED application
 4. Create the Arduino Cloud dashboard
 5. Test everything
 
@@ -51,69 +50,123 @@ This is a screenshot for reference.
 
 ![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Thing_Variables2.png)
 
-## 2. Set up your Node.js environment
+### Get an Arduino Cloud API key 
 
-Now it is time to install the Node.js dependencies in order to use Arduino Cloud. You have a [full tutorial](https://docs.arduino.cc/arduino-cloud/guides/javascript/) that describes the process in detail.
+The process to get an Arduino Cloud API key is very straightforward:
+1. Go to https://cloud.arduino.cc/home/api-keys.
+2. Click on **CREATE API KEY**, enter a name. 
+3. Note down the `Client ID` and `Client Secret` or download the PDF. We will use these credentials in the Node-RED node later.
 
-It can be summarized as follows:
+## 2. Install Node-RED and required nodes
 
-1. Install GPIOD library in the system
-2. Install the Node.js GPIOD package
-3. Install the Node.js Arduino Cloud packages
+### How to install Node-RED
+There are many ways to install Node-RED in a Raspberry Pi or any other machine. Typically, you can use: docker, snap, apt, native node.js installation.
+The tricky point is that we want our Node-RED instance to have access to the GPIOs and host system. This can be achieved with all the installation methods but for most of them it is quite difficult to achieve and many conflicts and issues need to be solved. So, the easiest and recommended way in this project would be to do a native installation using NPM.
 
-### Install the GPIOD library in the system
-First, you have to install library in the system. If you are using Ubuntu or any other Debian-based machine, you can follow these instructions.
-
+These are the instructions
+1. Node-RED Installation
+Install Node-RED with the following command
 ```
-sudo apt install gpiod libgpiod2 libgpiod-dev libnode-dev
-```
-
-### Install the GPIOD node.js package using NPM
-Next, you have to install the node package. 
-
-> Tip: The NPM modules can be installed globally or locally in the working folder. My suggestion is to work in the `js/` folder and install the modules there with the command above. Once installed, you should see a folder `js/node_modules/`. If you want to install the modules globally, just add `-g` to the command.
-
-```
-npm install --save node-libgpiod node-fetch
+sudo npm install -g --unsafe-perm node-red
 ```
 
-### Install Arduino Cloud Node.js packages
-To install the Arduino IoT Cloud client library, you only have to do the following:
+2. Manage the service
+There are many tools that can be used to manage the service, but I recommend using pm2 to manage the service and make it start on boot.
 
+Install pm2
 ```
-npm install arduino-iot-js
-```
-
-## 3. Develop the Node.js application
-
-Use your favourite programming environment and edit the `gpio-basic.js` file.
-
-Create a file called `credentials.js` inside the `js/gpio-basic/` folder with the following content
-
-```
-module.exports = {
-  DEVICE_ID: 'YOUR_DEVICE_ID',
-  SECRET_KEY: 'YOUR_SECRET_KEY'
-};
+sudo npm install -g pm2
 ```
 
-If you are using a different Raspberry Pi flavour or any other machine, you should check which is the right chipset (in this example we use `gpiochip4`) and which are the lines that you want to use. Then, modify the following lines accordingly:
-
+Edit the `pm2.json` file and set the full path to your `gpio-basic` folder
 ```
-const GPIOCHIP = 'gpiochip4';
-const LED = 14;     // GPIO14, Pin 8
-const BUTTON = 15;  // GPIO15, Pin 10
+{
+  "apps": [
+    {
+      "name": "node-red",
+      "script": "<FULL_PATH_TO_YOUR FOLDER>/pm2-node-red-start.sh"
+    }
+  ]
+}
 ```
 
-> Note: In the code, make sure that all the variables are global (chip, ledLine, buttonLine, ...). Otherwise, any timed operation will not work properly. This is mainly an important tip if you are going to modify or adapt the code for your own purposes.
+Launch the service, save it and enable pm2 to start on boot:
+```
+sudo pm2 start pm2.json
+sudo pm2 save
+sudo env PATH=$PATH:/usr/bin $(which pm2) startup systemd
+```
 
-If you want to learn more about GPIOs, Raspberry Pi and libraries, check the [Annex](README.md#notes) at the end of this doc.
+The service will be launched automatically on boot.
+You can manually start or stop the service with `sudo pm2 start node-red` or `sudo pm2 stop node-red`.
+
+### Open Node-RED
+Open a browser a introduce the URL: `http://<IP_ADDRESS>:1880`, replacing <IP_ADDRESS> with the IP Address of your Raspberry Pi.
+Your Node-RED environment will be opened.
+
+If everything was properly configured, you should see the flow
+
+![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Node-RED-Arduino_Cloud.png)
+
+> Note: If you can't see the flow and there's just an empty screen, you can
+> * review the configuration (maybe the folder is not set properly)
+> * or you could also import the flow.json pasting the content directly using **Menu-->Import**
+
+### Install the required nodes
+The first time, you will probably get some messages indicating that there are nodes missing. It is because the application requires the following nodes:
+
+* **node-red-contrib-libgpiod**: The nodes needed to interact with the GPIOs
+* **@arduino/node-red-contrib-arduino-iot-cloud**: The nodes to communicate with Arduino Cloud
+* **node-red-contrib-cpu**: I have used this node to generate an integer value that is sent to the Cloud. In this case I send the CPU load. 
+
+In order to install the nodes, you just have to click on **Menu-->Manage Palette** on the menu.
+Then go to the **Install** tab, search for the modules listed above and install them.
+
+## 3. Develop your Node-RED application
+
+If everything worked correctly, you should see the picture shown above.
+
+Now, it's time to configure the nodes.
+
+### Configure the Arduino Cloud nodes
+
+First, let's configure the Arduino Cloud nodes. For each node, you have to do the following:
+1. Select the Connection
+> Note: The first time, you will have to set up the Connection and introduce the API secrets `Client ID` and `Client Secret`.  
+2. Select the **Thing** from the dropdown menu
+3. Select the **Property** (the variable) from the dropdown menu
+4. Check the `Send as device` box
+5. Select the **Device** from the dropdown menu
+
+As a reference, you can see the full process in action for one node in the animated GIF below:
+
+![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Node-RED-Cloud_Config.gif)
+
+### Configure the GPIO nodes
+
+First, let's configure the GPIO IN node. Double click on the node and set:
+* Device --> Set your `gpiochipX` (gpiochip4 in the example)
+* Type: Digital pin
+* Pin --> Set your pin number
+
+![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Node-RED-Digital-IN.png)
+
+Next, let's configure the GPIO OUT node. Double click on the node and set:
+* Device --> Set your `gpiochipX` (gpiochip4 in the example)
+* Type: Digital (0/1)
+* Pin --> Set your pin number
+
+![Arduino Cloud variables](../../assets/RPI-GPIO-Basic-Node-RED-Digital-OUT.png)
+
+### Deploy
+
+Deploy the flow by clicking on the **Deploy** button on the top-right corner.
 
 ## 4. Create the Arduino Cloud dashboard
 
 The dashboard that we are going to build will look like this
 
-![alt text](../../assets/RPI-GPIO-Basic-Dashboard.png)
+![GPIO Basic Arduino Cloud Dashboard](../../assets/RPI-GPIO-Basic-Dashboard.png)
 
 There are 2 ways to create the dashboard:
 1. Create it manually. Replicate the one shown above following the instructions in [this guide](https://docs.arduino.cc/arduino-cloud/cloud-interface/dashboard-widgets/).
@@ -124,16 +177,10 @@ There are 2 ways to create the dashboard:
 
 ## 5. Test everything
 
-Run your code
-
-```
-~/rpi-arduino-cloud/js$ node ./gpio-basic/gpio-basic.js
-```
-
-You should see the following:
-* Every time push the button, the button widget should be updated
+You should now see the following:
+* Every time push the physical button, the button widget should be updated
 * Every time you change the LED widget in the dashboard, the physical LED should switch to ON or OFF
-* The value of `test_value` should change randomly every 10s and the value updated in the dashboard
+* The value of `test_value` should reflect the Raspberry PI CPU load updated every 5s, and you can see the evolution on the dashboard
 
 Enjoy!
 
@@ -172,9 +219,9 @@ Replace *\<Your-Dashboard-Name\>* and *\<Your-Thing-ID\>* with your actual data.
 ### GPIOs and Raspberry Pi
 There are many GPIO libraries that can be used with Raspberry Pis. Among some of the most popular, we can find: onoff, jonhny-five, rpi-gpio, gpiozero, .... One of the issues that I found is that some of the libraries only work for certain versions of RPI. For instance, the new RPI 5, has a brand new chipset for managing GPIOs, and not all the libraries work for it.
 
-After a lot of googling and searching, I ended up using *gpiod* as it is the one supported by the Linux kernel team directly and it can be used across all the RPI flavours.
-
 #### **GPIOD** library
+
+After a lot of googling and searching, I ended up using *libgpiod* as it is the one supported by the Linux kernel team directly and it can be used across all the RPI flavours and any other Linux-based machine.
 
 ##### Installation
 First, you have to install library in the system.
@@ -184,14 +231,10 @@ If you are using Ubuntu or any other Debian-based machine, you can follow these 
 sudo apt install gpiod libgpiod2 libgpiod-dev libnode-dev
 ```
 
-Next, you have to install the NPM library.
-
-```
-npm install --save node-libgpiod node-fetch
-```
+In this project, we are using `node-red-contrib-libgpiod` which is the official Node-RED node. The installation process is described above: just add the node using the **Menu-->Manage Palette** option.
 
 ##### Notes
-The GPIOD API has evolved quite a lot over time. The versions before 2.0.0 have a different API than the newer ones. This project is using the library [node-libgpiod](https://github.com/sombriks/node-libgpiod) which uses libgpiod v2.x. It's important to use version v0.4.0 or above of `node-libgpiod`.
+The GPIOD API has evolved quite a lot over time. The versions before 2.0.0 have a different API than the newer ones. 
 
 If you want to check what is the gpiochip and line that you have to use in the code, you can use the following command line commands.
 
@@ -264,3 +307,45 @@ gpiochip4 - 54 lines:
 ```
 
 Check the full documentation of libgpiod and the command line tools [here](https://github.com/brgl/libgpiod).
+
+
+
+
+
+
+---------------------------------------------
+
+
+## GPIOD nodes
+In all the projects in this repository, we are using `libgpiod` and the different wrappers and bindings for the variuos programming languages to interact with the RPI GPIOs. There are many other projects and libraries that can be used, but this is the most portable one across all the Raspberry Pi flavours and it can also be extrapolated to any Linux-based machine.
+
+In this project, we are going to use `node-red-contrib-libgpiod` which is the 
+
+Go to the menu "Manage Palette" --> "Install". Search the following nodes and install them. 
+
+@arduino/node-red-contrib-arduino-iot-cloud
+node-red-contrib-libgpiod
+
+## Configure the access to Arduino Cloud
+
+## How to install Node-RED
+There are many ways to install Node-RED in a Raspberry Pi or any other machine. Typically, you can use: docker, snap, apt, native node.js installation.
+The tricky point is that we want our Node-RED instance to have access to the GPIOs and host system. This can be achieved with all the installation methods but for most of them it is quite difficult to achieve and many conflicts and issues need to be solved. So, the easiest and recommended way would be to do a native installation using NPM.
+
+These are the instructions
+1. Installation
+```
+sudo npm install -g --unsafe-perm node-red
+```
+2. Manage the service
+I recommend using pm2 to manage the service and make it start on boot 
+```
+sudo npm install -g pm2
+sudo pm2 start /usr/bin/node-red -- -v --userDir /ruta/a/mi/carpeta
+sudo pm2 save
+sudo env PATH=$PATH:/usr/bin $(which pm2) startup systemd
+```
+
+The service will be launched automatically on boot.
+You can manually start or stop the service with `sudo pm2 start node-red` or `sudo pm2 stop node-red`.
+
